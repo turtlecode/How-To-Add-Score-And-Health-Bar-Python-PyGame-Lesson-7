@@ -31,7 +31,7 @@ char = pygame.image.load('standing.png')
 
 clock = pygame.time.Clock()
 
-score = 0 #new
+score = 0
 
 class player(object):
     def __init__(self, x, y, width, height):
@@ -116,13 +116,13 @@ class enemy(object):
         self.walkCount = 0
         self.vel = 3
         self.hitbox = (self.x + 17, self.y + 2, 31, 57)
-        self.health = 10 #new
-        self.visible = True #new
+        self.health = 10
+        self.visible = True
 
     def draw(self, win):
         self.move()
 
-        if self.visible:  # NEW
+        if  self.visible:
             if self.walkCount + 1 >= 33:
                 self.walkCount = 0
 
@@ -133,11 +133,12 @@ class enemy(object):
                 win.blit(self.walkLeft[self.walkCount // 3], (self.x, self.y))
                 self.walkCount += 1
 
-            pygame.draw.rect(win, (255, 0, 0), (self.hitbox[0],
-                            self.hitbox[1] - 20, 50, 10))  # NEW
-            pygame.draw.rect(win, (0, 128, 0),
-                             (self.hitbox[0], self.hitbox[1] - 20, 50 - (5 *
-                            (10 - self.health)), 10))  # NEW
+            pygame.draw.rect(window, (255,0,0), (self.hitbox[0],
+                            self.hitbox[1]-20,50,10))
+
+            pygame.draw.rect(window,(0,128,0),
+                             (self.hitbox[0],self.hitbox[1]-20,50 - (5 *
+                            (10 - self.health)),10))
 
             self.hitbox = (self.x + 17, self.y + 2, 31, 57)
             #pygame.draw.rect(window, (255,0,0), self.hitbox, 2)
@@ -156,7 +157,7 @@ class enemy(object):
                 self.vel = self.vel * -1
                 self.walkCount = 0
 
-    def hit(self): #new
+    def hit(self):
         if self.health > 0:
             self.health -= 1
         else:
@@ -166,8 +167,8 @@ class enemy(object):
 
 def redrawGameWindow():
     window.blit(bg, (0, 0))
-    text = font.render('Score: ' + str(score), 1, (0, 0, 0)) #new
-    window.blit(text, (350, 10)) #new
+    text = font.render('Score:' + str(score), 1, (0, 0, 0))
+    window.blit(text, (200,10))
     man.draw(window)
     goblin.draw(window)
     for bullet in bullets:
@@ -175,7 +176,7 @@ def redrawGameWindow():
     pygame.display.update()
 
 
-font = pygame.font.SysFont('comicsans', 30, True) #new
+font = pygame.font.SysFont('comicsans', 30, True)
 man = player(200, 410, 64, 64)
 goblin = enemy(100, 410, 64, 64, 300) #NEW
 shootLoop = 0
@@ -200,8 +201,8 @@ while run:
             if bullet.x + bullet.radius > goblin.hitbox[0] and bullet.x - \
                 bullet.radius < goblin.hitbox[0] + \
                 goblin.hitbox[2]:
+                score += 1
                 goblin.hit()
-                score += 1 #new
                 bullets.pop(bullets.index(bullet))
 
         if bullet.x < 500 and bullet.x > 0:
